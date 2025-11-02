@@ -13,7 +13,7 @@ import kornia
 import kornia.augmentation as K
 from kornia.constants import DataKey
 from einops import rearrange
-
+from dataset.CustomVideoDataset import CustomVideoDataset
 
 NORMALIZE_MEAN = [0.485, 0.456, 0.406]
 NORMALIZE_STD = [0.229, 0.224, 0.225]
@@ -42,8 +42,14 @@ def get_dataset(config, split='train'):
         'frame_interval': config.dataset.frame_interval,
         'padding_value': config.dataset.padding_value
     }
-
-    if dataset_name == 'ego4d_vq2d':
+    if config.dataset.name == 'custom_video_dataset':
+        dataset = CustomVideoDataset(
+            data_root=config.dataset.DATA_ROOT, # Đọc từ config mới
+            split=split,
+            query_params=query_params,
+            clip_params=clip_params
+        )
+    elif dataset_name == 'ego4d_vq2d':
         dataset = QueryVideoDataset(
             dataset_name=dataset_name,
             query_params=query_params,

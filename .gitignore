@@ -3,3 +3,5 @@
 /log
 /data
 /visualization
+__pycache__/
+pretrained_models/
